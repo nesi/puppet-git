@@ -30,4 +30,37 @@ class git::install(
 		package{$git::params::gui_package: ensure => absent}
 	}
 
+	$root_name 		= "root on ${fqdn}"
+	$root_email		= "root@${fqdn}"
+	$puppet_name	= "puppet on ${fqdn}"
+	$puppet_email	= "puppet@${fqdn}"
+
+	exec{'git_root_name':
+		user 		=> root,
+		command => "${git::params::bin} config --global user.name '${root_name}'",
+		unless	=> "${git::params::bin} config --global user.name|grep ${root_name}",
+		require => Package[$git::params::package],
+	}
+
+	exec{'git_root_email':
+		user 		=> root,
+		command => "${git::params::bin} config --global user.email '${root_email}'",
+		unless	=> "${git::params::bin} config --global user.email|grep ${root_email}",
+		require => Package[$git::params::package],
+	}
+
+	exec{'git_puppet_name':
+		user 		=> root,
+		command => "${git::params::bin} config --global user.name '${puppet_name}'",
+		unless	=> "${git::params::bin} config --global user.name|grep ${puppet_name}",
+		require => Package[$git::params::package],
+	}
+
+	exec{'git_puppet_email':
+		user 		=> puppet,
+		command => "${git::params::bin} config --global user.email '${puppet_email}'",
+		unless	=> "${git::params::bin} config --global user.email|grep ${puppet_email}",
+		require => Package[$git::params::package],
+	}
+
 }
