@@ -2,7 +2,7 @@
 #
 # Configure how the puppet git module behaves
 
-class git::param {
+class git::params {
 
   case $operatingsystem {
   	'CentOS','Ubuntu':{
