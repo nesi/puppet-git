@@ -36,7 +36,7 @@ class git::install(
 	exec{'git_root_name':
 		user 		=> root,
 		command => "${git::params::bin} config --global user.name '${root_name}'",
-		unless	=> "${git::params::bin} config --global user.name|grep ${root_name}",
+		unless	=> "${git::params::bin} config --global user.name|grep '${root_name}'",
 		require => Package[$git::params::package],
 	}
 
