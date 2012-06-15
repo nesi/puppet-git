@@ -6,7 +6,6 @@ define git::user(
 ){
 	require git
 	require git::params
-	require User[$name]
 
 	$git_name = $user_name ? {
 		false 	=> "${name} on ${fqdn}",
