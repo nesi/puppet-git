@@ -12,7 +12,7 @@ define git::user(
 		default => $user_name,
 	}
 
-	$git_email = $email ? {
+	$git_email = $user_email ? {
 		false		=> "${name}@${fqdn}",
 		default => $user_email,
 	}
