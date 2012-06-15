@@ -1,4 +1,20 @@
-# Define a git user resource
+# = Define a git user resource
+# 
+# At the moment this:
+# - Sets the git global user.name
+# - Sets the git global user.email
+#
+# == Parameters:
+#
+# $user_name::		The proper name for the user
+# $user_email::		The email address for the user
+#
+# == Usage:
+#
+# git::user{'somebody':
+#   user_name		=> 'Mr. Some Body',
+#   user_email 	=> 's.body@example.org',
+# }
 
 define git::user(
 	$user_name	= false,
