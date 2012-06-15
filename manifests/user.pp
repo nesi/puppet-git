@@ -21,14 +21,14 @@ define git::user(
 		user 		=> $user,
 		command => "${git::params::bin} config --global user.name '${git_name}'",
 		unless	=> "${git::params::bin} config --global user.name|grep '${git_name}'",
-		require => [Package[$git::params::package],User[$user]],
+		require => [Package[$git::params::package],User[$name]],
 	}
 
 	exec{"${name}_git_email":
 		user 		=> root,
 		command => "${git::params::bin} config --global user.email '${git_email}'",
 		unless	=> "${git::params::bin} config --global user.email|grep '${git_email}'",
-		require => [Package[$git::params::package],User[$user]],
+		require => [Package[$git::params::package],User[$name]],
 	}
 
 }
