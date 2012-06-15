@@ -57,6 +57,7 @@ define git::repo(
 	}
 
 	# I think tagging works, but it's possible setting a tag and a branch will just fight.
+	# It should change branches too...
 
 	if $tag {
 		exec {"git_${name}_co_tag":
