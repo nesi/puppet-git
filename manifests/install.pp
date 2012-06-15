@@ -33,18 +33,6 @@ class git::install(
 	$root_name 		= "root on ${fqdn}"
 	$root_email		= "root@${fqdn}"
 
-	exec{'git_root_name':
-		user 		=> root,
-		command => "${git::params::bin} config --global user.name '${root_name}'",
-		unless	=> "${git::params::bin} config --global user.name|grep '${root_name}'",
-		require => Package[$git::params::package],
-	}
-
-	exec{'git_root_email':
-		user 		=> root,
-		command => "${git::params::bin} config --global user.email '${root_email}'",
-		unless	=> "${git::params::bin} config --global user.email|grep ${root_email}",
-		require => Package[$git::params::package],
-	}
+	git::user{'root':}
 
 }
