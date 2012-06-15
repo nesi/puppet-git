@@ -17,7 +17,8 @@
 define git::repo(
 	$path,
 	$source		= false,
-	$checkout	= 'master',
+	$branch		= 'master',
+	$tag 			= false,
 	$owner		= 'root',
 	$update		= false,
 	$bare			= false
@@ -27,7 +28,7 @@ define git::repo(
 	require git::params
 
 	if $source {
-		$init_cmd = "${git::params::bin} clone ${source} ${path} --recursive"
+		$init_cmd = "${git::params::bin} clone -b ${branch} ${source} ${path} --recursive"
 	} else {
 		if $bare {
 			$init_cmd = "${git::params::bin} init --bare ${target}"
@@ -46,12 +47,42 @@ define git::repo(
 		command	=> $init_cmd,
 		creates	=> $creates,
 		require => Package[$git::params::package],
+		timeout => 600,
 	}
 
 	file {$path:
-		owner		=> $user,
+		owner		=> $owner,
 		recurse => true,
 		require => Exec["git_repo_${name}"],
+	}
+
+	# I think tagging works, but it's possible setting a tag and a branch will just fight.
+
+	if $tag {
+		exec {"git_${name}_co_tag":
+			user 		=> $owner,
+			cwd			=> $path,
+			command => "${git::params::bin} checkout ${tag}",
+			unless	=> "${git::params::bin} describe --tag|/bin/grep -P '^${tag}$'",
+			require => Exec["git_repo_${name}"],
+		}
+	} else {
+		exec {"git_${name}_co_branch":
+			user 		=> $owner,
+			cwd			=> $path,
+			command => "${git::params::bin} checkout ${branch}",
+			unless	=> "${git::params::bin} branch|/bin/grep -P '^\\* ${branch}$'",
+			require => Exec["git_repo_${name}"],
+		}
+		if $update {
+			exec {"git_${name}_pull":
+				user 		=> $owner,
+				cwd			=> $path,
+				command => "${git::params::bin} pull origin ${branch}",
+				unless	=> "${git::params::bin} diff origin ${branch}",
+				require => Exec["git_repo_${name}"],
+			}
+		}
 	}
 
 }
