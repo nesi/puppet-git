@@ -53,7 +53,6 @@ define git::repo(
 	file {$path:
 		owner		=> $owner,
 		recurse => true,
-		require => Exec["git_repo_${name}"],
 	}
 
 	# I think tagging works, but it's possible setting a tag and a branch will just fight.
