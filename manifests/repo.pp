@@ -48,6 +48,7 @@ define git::repo(
 		creates	=> $creates,
 		require => Package[$git::params::package],
 		timeout => 600,
+		require  => File[$path],
 	}
 
 	file {$path:
