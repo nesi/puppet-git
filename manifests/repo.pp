@@ -80,7 +80,7 @@ define git::repo(
 			exec {"git_${name}_pull":
 				user 		=> $owner,
 				cwd			=> $path,
-				command => "${git::params::bin} pull origin ${branch}",
+				command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${branch}",
 				unless	=> "${git::params::bin} diff origin --exit-code --no-color",
 				require => Exec["git_repo_${name}"],
 			}
