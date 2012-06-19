@@ -81,7 +81,7 @@ define git::repo(
 				user 		=> $owner,
 				cwd			=> $path,
 				command => "${git::params::bin} pull origin ${branch}",
-				unless	=> "${git::params::bin} diff origin ${branch} --exit-code --no-color",
+				unless	=> "${git::params::bin} diff origin --exit-code --no-color",
 				require => Exec["git_repo_${name}"],
 			}
 		}
