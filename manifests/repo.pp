@@ -42,12 +42,6 @@ define git::repo(
 		default	=> "${path}/.git",
 	}
 
-	file {$path:
-		ensure  => directory,
-		owner		=> $owner,
-		recurse => true,
-	}
-
 	exec {"git_repo_${name}":
 		user 		=> root,
 		command	=> $init_cmd,
