@@ -10,7 +10,7 @@
 #
 # $owner::			The user who should own the repository
 # 
-# $update::			If this is true, puppet will pull any changes when it runs.
+# $update::			If this is true, puppet will revert local changes and pull remote changes when it runs.
 #
 # $bare::				If this is true, git will create a bare repository
 
