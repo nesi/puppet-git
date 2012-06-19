@@ -46,8 +46,15 @@ define git::repo(
 		user 		=> root,
 		command	=> $init_cmd,
 		creates	=> $creates,
-		require => [Package[$git::params::package],File[$path]],
+		require => Package[$git::params::package],
+		notify	=> File[$path],
 		timeout => 600,
+	}
+
+	file{$path:
+		ensure 	=> directory,
+		owner		=> $owner,
+		recurse => true,
 	}
 
 	# I think tagging works, but it's possible setting a tag and a branch will just fight.
