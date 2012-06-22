@@ -6,7 +6,9 @@
 #
 # $path::				The path where the repository should be cloned to, fully qualified paths are recommended, and the $owner needs write permissions.
 # 
-# $checkout::		The branch or tag to be checked out
+# $branch::		The branch to be checked out
+#
+# $tag::			The tag to be checked out
 #
 # $owner::			The user who should own the repository
 # 
