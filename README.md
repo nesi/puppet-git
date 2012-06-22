@@ -11,12 +11,12 @@ Clone into your puppet configuration in your `puppet/modules` directory:
 
 Or if you're managing your Puppet configuration with git, in your `puppet` directory:
 
- git submodule add git://github.com/nesi/puppet-git.git modules/git --init --recursive
- cd modules/git
- git checkout master
- git pull
- cd ../..
- git commit -m "added git submodule from https://github.com/nesi/puppet-git"
+		git submodule add git://github.com/nesi/puppet-git.git modules/git --init --recursive
+		cd modules/git
+		git checkout master
+		git pull
+		cd ../..
+		git commit -m "added git submodule from https://github.com/nesi/puppet-git"
 
 It might seem bit excessive, but it will make sure the submodule isn't headless...
 
@@ -26,14 +26,14 @@ It might seem bit excessive, but it will make sure the submodule isn't headless.
 
 A basic install with the defaults would be:
 
- include git
+		 include git
 
 Otherwise using the parametrs:
 
- class{git:
-   svn => true,
-   gui => true,
- }
+		class{git:
+		  svn => true,
+		  gui => true,
+		}
 
 ### Parameters
 
@@ -46,14 +46,14 @@ This basically sets the users name and email as git global variables, and should
 
 With default settings just use:
 
- git::user{'username':}
+		git::user{'username':}
 
 Otherwise using parameters:
 
- git::user{'username':
-   user_name  => 'Some User',
-   user_email => 'someuser@example.org', 
- }
+		git::user{'username':
+		 user_name  => 'Some User',
+		 user_email => 'someuser@example.org', 
+		}
 
 ### Parameters
 
@@ -66,16 +66,16 @@ This will clone a git repository from a vaild git URI to a specified path on the
 
 With minimum parameters, should create the directory `/usr/src/repo` and run `git init` in it:
 
- git::repo{'repo_name':
-   path => '/usr/src/repo',
- }
+		git::repo{'repo_name':
+		  path => '/usr/src/repo',
+		}
 
 With minimum parameters to clone from a remote source:
 
- git::repo{'repo_name':
-   path   => '/usr/src/repo',
-   source => 'git://example.org/example/repo.git'
- }
+		git::repo{'repo_name':
+		 path   => '/usr/src/repo',
+		 source => 'git://example.org/example/repo.git'
+		}
 
 ### Parameters
 
