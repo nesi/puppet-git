@@ -57,8 +57,8 @@ Otherwise using parameters:
 
 ### Parameters
 
-* *user_name* sets the user's name to the specified string, and not the default of '${name} on ${fqdn}', where fqdn is the fully qualified domain name as discovered by facter.
-* *user_email* sets the user's email address to the specified string, and not the default of '${name}@${fqdn', where fqdn is the fully qualified domain name as discovered by facter.
+* *user_name* sets the user's name to the specified string, and not the default of `${name} on ${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
+* *user_email* sets the user's email address to the specified string, and not the default of `${name}@${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
 
 ## To specify a git repository
 
