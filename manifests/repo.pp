@@ -83,7 +83,7 @@ define git::repo(
 				user 		=> $owner,
 				cwd			=> $path,
 				command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${branch}",
-				unless	=> "${git::params::bin} diff origin --exit-code --no-color",
+				onlyif	=> "${git::params::bin} git remote update && ${git::params::bin} status -uno|grep 'Your branch is behind'",
 				require => Exec["git_repo_${name}"],
 			}
 		}
