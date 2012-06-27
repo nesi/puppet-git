@@ -41,7 +41,7 @@ define git::user(
 	}
 
 	exec{"${name}_git_email":
-		user 		=> root,
+		user 		=> $user,
 		command => "${git::params::bin} config --global user.email '${git_email}'",
 		unless	=> "${git::params::bin} config --global user.email|/bin/grep '${git_email}'",
 		require => [Package[$git::params::package]],

@@ -45,7 +45,6 @@ define git::repo(
 	}
 
 	exec {"git_repo_${name}":
-		user 		=> root,
 		command	=> $init_cmd,
 		creates	=> $creates,
 		require => Package[$git::params::package],
@@ -83,7 +82,7 @@ define git::repo(
 				user 		=> $owner,
 				cwd			=> $path,
 				command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${branch}",
-				onlyif	=> "${git::params::bin} git remote update && ${git::params::bin} status -uno|grep 'Your branch is behind'",
+				unless	=> "${git::params::bin} git remote update && ${git::params::bin} status -uno|grep 'Your branch is behind'",
 				require => Exec["git_repo_${name}"],
 			}
 		}
