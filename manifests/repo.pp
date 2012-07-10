@@ -54,36 +54,41 @@ define git::repo(
 
 	file{$path:
 		ensure 	=> directory,
-		owner		=> $owner,
+		owner	=> $owner,
 		recurse => true,
 	}
 
 	# I think tagging works, but it's possible setting a tag and a branch will just fight.
 	# It should change branches too...
 
+
+	# Doing thes as root, then notify file will ensure file ownership is fixed
 	if $tag {
 		exec {"git_${name}_co_tag":
-			user 		=> $owner,
+			user 		=> root,
 			cwd			=> $path,
 			command => "${git::params::bin} checkout ${tag}",
 			unless	=> "${git::params::bin} describe --tag|/bin/grep -P '^${tag}$'",
 			require => Exec["git_repo_${name}"],
+			notify	=> File[$path],
 		}
 	} else {
 		exec {"git_${name}_co_branch":
-			user 		=> $owner,
+			user 		=> root,
 			cwd			=> $path,
 			command => "${git::params::bin} checkout ${branch}",
 			unless	=> "${git::params::bin} branch|/bin/grep -P '^\\* ${branch}$'",
 			require => Exec["git_repo_${name}"],
+			notify	=> File[$path],
 		}
 		if $update {
 			exec {"git_${name}_pull":
-				user 		=> $owner,
+				user 		=> root,
 				cwd			=> $path,
 				command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${branch}",
 				unless	=> "${git::params::bin} diff origin --no-color --exit-code",
 				require => Exec["git_repo_${name}"],
+				notify	=> File[$path],
 			}
 		}
 	}
