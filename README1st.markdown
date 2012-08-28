@@ -9,7 +9,18 @@ Use this module to start a new blank puppet module with all the required compone
 ## Create a new blank module
 
 1. Clone this repository:
-     git clone -o puppet-blank -b master git://github.com/Aethylred/puppet-blank.git /path/to/new/repository
+
+```
+git clone -o puppet-blank -b master git://github.com/Aethylred/puppet-blank.git /path/to/new/repository
+```
+2. Use the `unblank.ps1` script to customise the blank template
+3. Delete the `.orig` templates
+4. Add a new `origin` remote
+
+```
+git remote add origin git@a.git.repo:reponame.git
+```
+
 
 ## Windows scripts
 
@@ -24,7 +35,10 @@ Powershell will not run unsigned scripts by default, this can be enabled by exec
 3. When *Powershell* shows up in the search results, right click and select *Run as administrator*
 4. Windows UAC may ask for permission to run as an administrator, click *Yes*
 5. Run the following command in the administrator Powershell:
-     set-executionpolicy remotesigned
+
+```
+set-executionpolicy remotesigned
+```
 6. Press *Enter* again to confirm the policy change
 
 ## Change author and module
@@ -33,8 +47,10 @@ This updates the author and module name using the `.orig` templates. This script
 
 1. Start Powershell in the blank module directory
 2. Run the `unblank.ps1` script:
-     ./setauthor.ps1 newauthor newmodule
 
+```
+./unblank.ps1 newauthor newmodule
+```
 # Frequently Asked Questions
 
 More like questions that should be asked.
@@ -43,8 +59,9 @@ More like questions that should be asked.
 
 This module started with the standard module generation using 
 
-     puppet module generate blank
-
+```
+puppet module generate author blank
+```
 ...so why not continue to use it?
 
 This module is intended for:
