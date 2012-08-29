@@ -21,7 +21,6 @@ git clone -o puppet-blank -b master git://github.com/Aethylred/puppet-blank.git 
 git remote add origin git@a.git.repo:reponame.git
 ```
 
-
 ## Windows scripts
 
 Provided are some Powershell scripts that can be used to manage the blank puppet module template.
@@ -49,8 +48,58 @@ This updates the author and module name using the `.orig` templates. This script
 2. Run the `unblank.ps1` script:
 
 ```
-./unblank.ps1 newauthor newmodule
+.\unblank.ps1 newauthor newmodule
 ```
+3. Add the newly created files to the git version control:
+```
+git add Modulefile manifests\init.pp tests\init.pp
+```
+4. Commit these changes to git:
+```
+git commit -am "Unblanked module with newauthor and newmodule"
+```
+5. Add new remote repository:
+```
+git remote add origin git@git.repo.server:repository.git
+```
+6. Push changes to origin:
+```
+git push origin master
+```
+7. The new module is ready for further development
+
+## There's been an update to puppet-blank
+
+Just merge from the puppet-blank remote, though conflicts will be expected:
+```
+git pull puppet-blank master
+```
+
+## Cleaning up the puppet-blank files
+1. Start Powershell in the blank module directory
+2. Run the cleanup script:
+`.\cleanup.ps1`
+3. Commit the changes to git:
+```
+git commit -am "Cleaned up with the puppet-blank cleanup script"
+```
+4. Push changes to remote:
+```
+git push origin master
+```
+**NOTE:** The cleanup script is *destructive* and will delete several files, including itself.
+**NOTE:** The puppet-blank remote is read-only, it should not be possible to push to it.
+
+## Prepare a module for submission to Puppet Forge
+
+1. To perform this step, the module will need to be cloned to a Linux server where puppet has been installed, and that the `UNKNOWN` entries in the `Modulefile` have been corrected.
+2. in the parent directory to the module, build the module metadata where the module is in the directory `puppet-module`:
+```
+puppet module build puppet-module
+```
+3. Submit the resulting tarball to Puppet Forge as per:
+http://docs.puppetlabs.com/puppet/2.7/reference/modules_publishing.html
+
 # Frequently Asked Questions
 
 More like questions that should be asked.
@@ -66,6 +115,10 @@ puppet module generate author blank
 
 This module is intended for:
 
-1. Writing a module where puppet is not or can not be installed
+1. Writing a module in an environment where puppet is not or can not be installed
 
 2. Use as a starting point for a collection of modules and prepopulated with things like licensing, boiler plate, pictures of cats, etc. etc.
+
+## Why Windows powershell scripts?
+
+My $work environment is restricted to using Windows 7, so I required scripts that run under Windows 7. I used Powershell because it has regular expressions, which made this much easier than `.bat` batch files.
