@@ -35,7 +35,7 @@ class git(
 	$svn = true
 ){
 	case $operatingsystem  {
-		CentOS,Ubuntu:{
+		CentOS,Ubuntu, Debian:{
 			class{'git::install':
 				gui		=> $gui,
 				svn		=> $svn,
