@@ -49,7 +49,6 @@ define git::repo(
 		command	=> $init_cmd,
 		creates	=> $creates,
 		require => Package[$git::params::package],
-		notify	=> File[$path],
 		timeout => 600,
 	}
 
