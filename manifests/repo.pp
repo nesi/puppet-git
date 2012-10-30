@@ -8,7 +8,7 @@
 # 
 # $branch::		The branch to be checked out
 #
-# $tag::			The tag to be checked out
+# $git_tag::			The tag to be checked out
 #
 # $owner::			The user who should own the repository
 # 
@@ -20,7 +20,7 @@ define git::repo(
 	$path,
 	$source		= false,
 	$branch		= 'master',
-	$tag 		= false,
+	$git_tag	= false,
 	$owner		= 'root',
 	$update		= false,
 	$bare		= false
@@ -54,12 +54,12 @@ define git::repo(
 
 	# I think tagging works, but it's possible setting a tag and a branch will just fight.
 	# It should change branches too...
-	if $tag {
+	if $git_tag {
 		exec {"git_${name}_co_tag":
 			user 	=> $owner,
 			cwd	=> $path,
-			command => "${git::params::bin} checkout ${tag}",
-			unless	=> "${git::params::bin} describe --tag|/bin/grep -P '^${tag}$'",
+			command => "${git::params::bin} checkout ${git_tag}",
+			unless	=> "${git::params::bin} describe --tag|/bin/grep -P '^${git_tag}$'",
 			require => Exec["git_repo_${name}"],
 		}
 	} else {
