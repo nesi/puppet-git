@@ -34,7 +34,7 @@ class git(
 	$gui = false,
 	$svn = true
 ){
-	case $operatingsystem  {
+	case $::operatingsystem  {
 		CentOS,Ubuntu, Debian:{
 			class{'git::install':
 				gui		=> $gui,
@@ -42,7 +42,7 @@ class git(
 			}
 		}
 		default:{
-			warning("git is not configured for $operatingsystem on $fqdn")
+			warning("git is not configured for $::operatingsystem on $::fqdn")
 		}
 	}
 }

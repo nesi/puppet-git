@@ -4,7 +4,7 @@
 
 class git::params {
 
-  case $operatingsystem {
+  case $::operatingsystem {
   	'CentOS','Ubuntu', 'Debian' :{
   		$package 			= 'git'
   		$svn_package	= 'git-svn'

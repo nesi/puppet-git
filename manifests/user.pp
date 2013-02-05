@@ -24,12 +24,12 @@ define git::user(
 	require git::params
 
 	$git_name = $user_name ? {
-		false 	=> "${name} on ${fqdn}",
+		false 	=> "${name} on ${::fqdn}",
 		default => $user_name,
 	}
 
 	$git_email = $user_email ? {
-		false		=> "${name}@${fqdn}",
+		false		=> "${name}@${::fqdn}",
 		default => $user_email,
 	}
 
