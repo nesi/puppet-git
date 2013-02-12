@@ -34,14 +34,14 @@ define git::user(
 	}
 
 	exec{"${name}_git_name":
-		command => "/bin/su $user -c '${git::params::bin} config --global user.name ${git_name}'",
-		unless	=> "/bin/su $user -c '${git::params::bin} config --global user.name'|/bin/grep '${git_name}'",
+		command => "/bin/su ${name} -c '${git::params::bin} config --global user.name ${git_name}'",
+		unless	=> "/bin/su ${name} -c '${git::params::bin} config --global user.name'|/bin/grep '${git_name}'",
 		require => [Package[$git::params::package]],
 	}
 
 	exec{"${name}_git_email":
-		command => "/bin/su $user -c '${git::params::bin} config --global user.email ${git_email}'",
-		unless	=> "/bin/su $user -c '${git::params::bin} config --global user.email'|/bin/grep '${git_email}'",
+		command => "/bin/su ${name} -c '${git::params::bin} config --global user.email ${git_email}'",
+		unless	=> "/bin/su ${name} -c '${git::params::bin} config --global user.email'|/bin/grep '${git_email}'",
 		require => [Package[$git::params::package]],
 	}
 
