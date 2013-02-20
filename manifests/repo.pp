@@ -46,6 +46,7 @@ define git::repo(
 
 	exec {"git_repo_${name}":
 		command	=> $init_cmd,
+        user => $owner,
 		creates	=> $creates,
 		require => Package[$git::params::package],
 		notify	=> File[$path],
