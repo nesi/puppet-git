@@ -19,9 +19,10 @@
 define git::repo(
   $path,
   $source   = false,
-  $branch   = 'master',
-  $tag      = false,
+  $branch   = undef,
+  $tag      = undef,
   $owner    = 'root',
+  $group    = 'root',
   $update   = false,
   $bare     = false
 ){
@@ -29,8 +30,16 @@ define git::repo(
   require git
   require git::params
 
+  validate_bool($bare, $update)
+
+  if $branch {
+    $real_branch = $branch
+  } else {
+    $real_branch = 'master'
+  }
+
   if $source {
-    $init_cmd = "${git::params::bin} clone -b ${branch} ${source} ${path} --recursive"
+    $init_cmd = "${git::params::bin} clone -b ${real_branch} ${source} ${path} --recursive"
   } else {
     if $bare {
       $init_cmd = "${git::params::bin} init --bare ${target}"
@@ -54,7 +63,8 @@ define git::repo(
 
   file{$path:
     ensure  => directory,
-    owner => $owner,
+    owner   => $owner,
+    group   => $group,
     recurse => true,
   }
 
@@ -62,7 +72,7 @@ define git::repo(
   # It should change branches too...
 
 
-  # Doing thes as root, then notify file will ensure file ownership is fixed
+  # Doing these as root, then notify file will ensure file ownership is fixed
   if $tag {
     exec {"git_${name}_co_tag":
       user    => root,
@@ -76,8 +86,8 @@ define git::repo(
     exec {"git_${name}_co_branch":
       user    => root,
       cwd     => $path,
-      command => "${git::params::bin} checkout ${branch}",
-      unless  => "${git::params::bin} branch|/bin/grep -P '^\\* ${branch}$'",
+      command => "${git::params::bin} checkout ${real_branch}",
+      unless  => "${git::params::bin} branch|/bin/grep -P '^\\* ${real_branch}$'",
       require => Exec["git_repo_${name}"],
       notify  => File[$path],
     }
@@ -85,7 +95,7 @@ define git::repo(
       exec {"git_${name}_pull":
         user    => root,
         cwd     => $path,
-        command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${branch}",
+        command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${real_branch}",
         unless  => "${git::params::bin} diff origin --no-color --exit-code",
         require => Exec["git_repo_${name}"],
         notify  => File[$path],
