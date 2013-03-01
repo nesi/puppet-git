@@ -23,15 +23,15 @@ define git::user(
   require git
   require git::params
 
-	$git_name = $user_name ? {
-		false 	=> "${name} on ${::fqdn}",
-		default => $user_name,
-	}
+  $git_name = $user_name ? {
+    false   => "${name} on ${::fqdn}",
+    default => $user_name,
+  }
 
-	$git_email = $user_email ? {
-		false		=> "${name}@${::fqdn}",
-		default => $user_email,
-	}
+  $git_email = $user_email ? {
+    false   => "${name}@${::fqdn}",
+    default => $user_email,
+  }
 
   exec{"${name}_git_name":
     command => "/bin/su ${name} -c '${git::params::bin} config --global user.name \"${git_name}\"'",
