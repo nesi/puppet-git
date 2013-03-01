@@ -88,6 +88,12 @@ With minimum parameters to clone from a remote source:
 
 **Note:** I am uncertain on how it will behave if both *tag* and *branch* are set, but *tag* should override *branch*.
 
+# Dependencies
+
+* [stdlib][1]
+
+[1]:https://github.com/puppetlabs/puppetlabs-stdlib
+
 # Attribution
 
 This module is derived from the puppet-blank module by Aaron Hicks (aethylred@gmail.com)
