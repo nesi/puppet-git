@@ -53,14 +53,14 @@ define git::repo(
     default => "${path}/.git",
   }
 
-	exec {"git_repo_${name}":
-		command	=> $init_cmd,
-        user => $owner,
-		creates	=> $creates,
-		require => Package[$git::params::package],
-		notify	=> File[$path],
-		timeout => 600,
-	}
+  exec {"git_repo_${name}":
+    command => $init_cmd,
+    user    => $owner,
+    creates => $creates,
+    require => Package[$git::params::package],
+    notify  => File[$path],
+    timeout => 600,
+  }
 
   file{$path:
     ensure  => directory,
