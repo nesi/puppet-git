@@ -6,33 +6,33 @@
 #
 # or:
 # class {'git':
-#		svn => true,
+#   svn => true,
 #   gui => true,
-#} 
+#}
 
 class git::install(
-	$gui,
-	$svn
+  $gui,
+  $svn
 ){
-	require git::params
+  require git::params
 
-	package{$git::params::package: ensure => installed}
+  package{$git::params::package: ensure => installed}
 
-	if $svn {
-		package{$git::params::svn_package: ensure => installed}
-	} else {
-		package{$git::params::svn_package: ensure => absent}
-	}
+  if $svn {
+    package{$git::params::svn_package: ensure => installed}
+  } else {
+    package{$git::params::svn_package: ensure => absent}
+  }
 
-	if $gui {
-		package{$git::params::gui_package: ensure => installed}
-	} else {
-		package{$git::params::gui_package: ensure => absent}
-	}
+  if $gui {
+    package{$git::params::gui_package: ensure => installed}
+  } else {
+    package{$git::params::gui_package: ensure => absent}
+  }
 
-	$root_name 		= "root on ${fqdn}"
-	$root_email		= "root@${fqdn}"
+  $root_name    = "root on ${fqdn}"
+  $root_email   = "root@${fqdn}"
 
-	git::user{'root':}
+  git::user{'root':}
 
 }
