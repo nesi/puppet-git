@@ -16,9 +16,9 @@ class git::install(
 ){
   require git::params
 
-	if ! defined(Package[$git::params::package]) {
-		package{$git::params::package: ensure => installed}
-	}
+  if ! defined(Package[$git::params::package]) {
+    package{$git::params::package: ensure => installed}
+  }
 
   if $svn {
     package{$git::params::svn_package: ensure => installed}

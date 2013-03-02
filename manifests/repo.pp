@@ -6,9 +6,9 @@
 #
 # $path::       The path where the repository should be cloned to, fully qualified paths are recommended, and the $owner needs write permissions.
 #
-# $branch::   The branch to be checked out
+# $branch::     The branch to be checked out
 #
-# $tag::      The tag to be checked out
+# $git_tag::    The tag to be checked out
 #
 # $owner::      The user who should own the repository
 #
@@ -20,7 +20,7 @@ define git::repo(
   $path,
   $source   = false,
   $branch   = undef,
-  $tag      = undef,
+  $git_tag  = undef,
   $owner    = 'root',
   $group    = 'root',
   $update   = false,
@@ -53,14 +53,6 @@ define git::repo(
     default => "${path}/.git",
   }
 
-  exec {"git_repo_${name}":
-    command => $init_cmd,
-    user    => $owner,
-    creates => $creates,
-    require => Package[$git::params::package],
-    notify  => File[$path],
-    timeout => 600,
-  }
 
   file{$path:
     ensure  => directory,
@@ -71,37 +63,30 @@ define git::repo(
 
   # I think tagging works, but it's possible setting a tag and a branch will just fight.
   # It should change branches too...
-
-
-  # Doing these as root, then notify file will ensure file ownership is fixed
-  if $tag {
+  if $git_tag {
     exec {"git_${name}_co_tag":
-      user    => root,
+      user    => $owner,
       cwd     => $path,
-      command => "${git::params::bin} checkout ${tag}",
-      unless  => "${git::params::bin} describe --tag|/bin/grep -P '^${tag}$'",
+      command => "${git::params::bin} checkout ${git_tag}",
+      unless  => "${git::params::bin} describe --tag|/bin/grep -P '^${git_tag}$'",
       require => Exec["git_repo_${name}"],
-      notify  => File[$path],
     }
   } else {
     exec {"git_${name}_co_branch":
-      user    => root,
+      user    => $owner,
       cwd     => $path,
-      command => "${git::params::bin} checkout ${real_branch}",
-      unless  => "${git::params::bin} branch|/bin/grep -P '^\\* ${real_branch}$'",
+      command => "${git::params::bin} checkout ${branch}",
+      unless  => "${git::params::bin} branch|/bin/grep -P '^\\* ${branch}$'",
       require => Exec["git_repo_${name}"],
-      notify  => File[$path],
     }
     if $update {
       exec {"git_${name}_pull":
-        user    => root,
+        user    => $owner,
         cwd     => $path,
-        command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${real_branch}",
+        command => "${git::params::bin} reset --hard HEAD && ${git::params::bin} pull origin ${branch}",
         unless  => "${git::params::bin} diff origin --no-color --exit-code",
         require => Exec["git_repo_${name}"],
-        notify  => File[$path],
       }
     }
   }
-
 }
