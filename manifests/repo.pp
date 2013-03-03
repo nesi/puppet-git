@@ -62,6 +62,14 @@ define git::repo(
     }
   }
 
+  exec {"git_repo_${name}":
+    command => $init_cmd,
+    user    => $owner,
+    creates => $creates,
+    require => Package[$git::params::package],
+    timeout => 600,
+  }
+
   # I think tagging works, but it's possible setting a tag and a branch will just fight.
   # It should change branches too...
   if $git_tag {
