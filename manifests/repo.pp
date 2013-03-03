@@ -54,11 +54,12 @@ define git::repo(
   }
 
 
-  file{$path:
-    ensure  => directory,
-    owner   => $owner,
-    group   => $group,
-    recurse => true,
+  if ! defined(File[$path]){
+    file{$path:
+      ensure  => directory,
+      owner => $owner,
+      recurse => true,
+    }
   }
 
   # I think tagging works, but it's possible setting a tag and a branch will just fight.
