@@ -82,7 +82,7 @@ With minimum parameters to clone from a remote source:
 * *path* sets the path where the git repository is created or cloned to
 * *source* sets the git URI from which the git repository is cloned from
 * *branch* this string sets a specific branch to check out
-* *tag* this string sets a specific tag to check out
+* *git_tag* this string sets a specific tag to check out
 * *update* if set to true, when puppet runs it will revert any local changes and pull the current branch from the source if there is any difference between the local repository and the source repository.
 *  *bare* if set to true, it creates a bare repository
 
