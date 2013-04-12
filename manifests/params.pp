@@ -5,7 +5,7 @@
 class git::params {
 
   case $::operatingsystem {
-    'CentOS','Ubuntu', 'Debian', 'Amazon', 'Archlinux' :{
+    'CentOS','Ubuntu', 'Debian', 'Amazon', 'Archlinux', 'Gentoo' :{
       $package      = 'git'
       $svn_package  = 'git-svn'
       $gui_package  = 'git-gui'
@@ -20,7 +20,7 @@ class git::params {
 class binaries::params {
 
   case $::operatingsystem {
-    'CentOS','Ubuntu', 'Debian', 'Amazon' :{
+    'CentOS','Ubuntu', 'Debian', 'Amazon', 'Gentoo' :{
       $grep_cmd = '/bin/grep'
     }
     'Archlinux' :{
