@@ -29,6 +29,7 @@ define git::repo(
 
   require git
   require git::params
+  require binaries::params
 
   validate_bool($bare, $update)
 
@@ -77,15 +78,15 @@ define git::repo(
       user    => $owner,
       cwd     => $path,
       command => "${git::params::bin} checkout ${git_tag}",
-      unless  => "${git::params::bin} describe --tag|/bin/grep -P '^${git_tag}$'",
+      unless  => "${git::params::bin} describe --tag|${binaries::params::grep_cmd} -P '${git_tag}'",
       require => Exec["git_repo_${name}"],
     }
-  } else {
+  } elsif ! $bare {
     exec {"git_${name}_co_branch":
       user    => $owner,
       cwd     => $path,
       command => "${git::params::bin} checkout ${branch}",
-      unless  => "${git::params::bin} branch|/bin/grep -P '^\\* ${branch}$'",
+      unless  => "${git::params::bin} branch|${binaries::params::grep_cmd} -P '\\* ${branch}'",
       require => Exec["git_repo_${name}"],
     }
     if $update {

@@ -22,6 +22,7 @@ define git::user(
 ){
   require git
   require git::params
+  require binaries::params
 
   $git_name = $user_name ? {
     false   => "${name} on ${::fqdn}",
@@ -35,13 +36,13 @@ define git::user(
 
   exec{"${name}_git_name":
     command => "/bin/su ${name} -c '${git::params::bin} config --global user.name \"${git_name}\"'",
-    unless  => "/bin/su ${name} -c '${git::params::bin} config --global user.name'|/bin/grep '${git_name}'",
+    unless  => "/bin/su ${name} -c '${git::params::bin} config --global user.name'|${binaries::params::grep_bin} '${git_name}'",
     require => [Package[$git::params::package]],
   }
 
   exec{"${name}_git_email":
     command => "/bin/su ${name} -c '${git::params::bin} config --global user.email \"${git_email}\"'",
-    unless  => "/bin/su ${name} -c '${git::params::bin} config --global user.email'|/bin/grep '${git_email}'",
+    unless  => "/bin/su ${name} -c '${git::params::bin} config --global user.email'|${binaries::params::grep_bin} '${git_email}'",
     require => [Package[$git::params::package]],
   }
 
