@@ -81,7 +81,7 @@ define git::repo(
       unless  => "${git::params::bin} describe --tag|${binaries::params::grep_cmd} -P '${git_tag}'",
       require => Exec["git_repo_${name}"],
     }
-  } else {
+  } elsif ! $bare {
     exec {"git_${name}_co_branch":
       user    => $owner,
       cwd     => $path,
