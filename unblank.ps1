@@ -20,6 +20,13 @@ if ($author -match "^\w+$") {
 		Set-Content tests/init.pp $testfile
 		echo "tests/init.pp updated."
 
+    echo "Update .fixtures.yml..."
+    $modulefile = Get-Content .fixtures.yaml.orig
+    $modulefile = Foreach-Object {$modulefile -replace "aethylred", $author}
+    $modulefile = Foreach-Object {$modulefile -replace "blank", $module}
+    Set-Content .fixtures.yaml $modulefile
+    echo ".fixtures.yml updated."
+
 	} else {
 		throw "ERROR: Bad module parameter '$module', must be a single word made up of word caracters [a-zA-Z_0-9]"
 	}
