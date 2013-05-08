@@ -21,10 +21,10 @@ if ($author -match "^\w+$") {
     echo "tests/init.pp updated."
 
     echo "Update .fixtures.yml..."
-    $modulefile = Get-Content .fixtures.yaml.orig
+    $modulefile = Get-Content .fixtures.yml.orig
     $modulefile = Foreach-Object {$modulefile -replace "aethylred", $author}
     $modulefile = Foreach-Object {$modulefile -replace "blank", $module}
-    Set-Content .fixtures.yaml $modulefile
+    Set-Content .fixtures.yml $modulefile
     echo ".fixtures.yml updated."
 
   } else {
