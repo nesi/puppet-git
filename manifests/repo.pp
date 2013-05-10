@@ -42,9 +42,9 @@ define git::repo(
     $init_cmd = "${git::params::bin} clone -b ${real_branch} ${source} ${path} --recursive"
   } else {
     if $bare {
-      $init_cmd = "${git::params::bin} init --bare ${target}"
+      $init_cmd = "${git::params::bin} init --bare ${path}"
     } else {
-      $init_cmd = "${git::params::bin} init ${target}"
+      $init_cmd = "${git::params::bin} init ${path}"
     }
   }
 
