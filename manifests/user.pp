@@ -37,6 +37,7 @@ define git::user(
     command => "/bin/su ${name} -c '${git::params::bin} config --global user.name \"${git_name}\"'",
     unless  => "/bin/su ${name} -c '${git::params::bin} config --global user.name'|/bin/grep '${git_name}'",
     require => [Package[$git::params::package]],
+    provider => "shell",
   }
 
   exec{"${name}_git_email":
