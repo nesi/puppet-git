@@ -14,21 +14,10 @@ class git::params {
       }else{
          $package = 'git'
       }
-    }
-    default:{
-      warning("git not configured for ${::operatingsystem} on ${::fqdn}")
-    }
-  }
-}
-
-class binaries::params {
-
-  case $::operatingsystem {
-    'CentOS','Ubuntu', 'Debian', 'Amazon', 'Gentoo' :{
-      $grep_cmd = '/bin/grep'
-    }
-    'Archlinux' :{
-      $grep_cmd = '/usr/bin/grep'
+      $grep_cmd = $::operatingsystem ? {
+        Archlinux => '/usr/bin/grep',
+        default   => '/bin/grep'
+      }
     }
     default:{
       warning("git not configured for ${::operatingsystem} on ${::fqdn}")
