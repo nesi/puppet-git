@@ -57,7 +57,7 @@ define git::repo(
   if ! defined(File[$path]){
     file{$path:
       ensure  => directory,
-      owner => $owner,
+      owner   => $owner,
       recurse => true,
     }
   }
