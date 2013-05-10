@@ -31,11 +31,13 @@
 #
 # Somewhat derived from https://github.com/theforeman/puppet-git
 class git(
-  $gui = false,
-  $svn = true
+  $gui      = false,
+  $svn      = true,
+  $git_root = false
 ) inherits git::params {
   class{'git::install':
-    gui   => $gui,
-    svn   => $svn,
+    gui       => $gui,
+    svn       => $svn,
+    git_root  => $git_root,
   }
 }
