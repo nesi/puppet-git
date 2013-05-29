@@ -32,13 +32,15 @@
 # Somewhat derived from https://github.com/theforeman/puppet-git
 class git(
   $gui = false,
-  $svn = true
+  $svn = true,
+  $ensure = "installed",
 ){
   case $::operatingsystem  {
     CentOS,Ubuntu, Debian,Amazon:{
       class{'git::install':
         gui   => $gui,
         svn   => $svn,
+        ensure => $ensure,
       }
     }
     default:{

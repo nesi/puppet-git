@@ -12,25 +12,28 @@
 
 class git::install(
   $gui,
-  $svn
+  $svn,
+  $ensure = "installed",
 ){
   require git::params
 
   if ! defined(Package[$git::params::package]) {
-    package{$git::params::package: ensure => installed}
+    package{$git::params::package: ensure => $ensure }
   }
 
-  if $svn {
-    package{$git::params::svn_package: ensure => installed}
-  } else {
-    package{$git::params::svn_package: ensure => absent}
+  case $svn {
+    true:    { $svn_ensure = "installed" }
+    false:   { $svn_ensure = "absent" }
+    default: { $svn_ensure = $svn }
   }
+  package{$git::params::svn_package: ensure => $svn_ensure }
 
-  if $gui {
-    package{$git::params::gui_package: ensure => installed}
-  } else {
-    package{$git::params::gui_package: ensure => absent}
+  case $gui {
+    true:    { $gui_ensure = "installed" }
+    false:   { $gui_ensure = "absent" }
+    default: { $gui_ensure = $gui }
   }
+  package{$git::params::gui_package: ensure => $gui_ensure }
 
   $root_name    = "root on ${::fqdn}"
   $root_email   = "root@${::fqdn}"
