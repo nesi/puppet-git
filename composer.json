@@ -19,5 +19,5 @@
         "puphpet/puphpet-module-installer": "*",
         "puphpet/puppetlabs-stdlib":        "dev-master"
     },
-    "target-dir": "apt"
+    "target-dir": "git"
 }
