@@ -33,7 +33,7 @@ define git::repo(
   validate_bool($bare, $update)
 
   if $owner != 'root' {
-    $su_do  = "${git::params::su_cmd} - ${owner} -c \""
+    $su_do  = "${git::params::su_cmd} -l ${owner} -c \""
     $su_end = "\""
   } else {
     $su_do  = ''
