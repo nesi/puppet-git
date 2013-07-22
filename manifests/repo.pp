@@ -32,6 +32,14 @@ define git::repo(
 
   validate_bool($bare, $update)
 
+  if $owner != 'root' {
+    $su_do  = "${git::params::su_cmd} - ${owner} -c \""
+    $su_end = "\""
+  } else {
+    $su_do  = ''
+    $su_end = ''
+  }
+
   if $branch {
     $real_branch = $branch
   } else {
@@ -39,12 +47,12 @@ define git::repo(
   }
 
   if $source {
-    $init_cmd = "${git::params::bin} clone -b ${real_branch} ${source} ${path} --recursive"
+    $init_cmd = "${su_do}${git::params::bin} clone -b ${real_branch} ${source} ${path} --recursive${su_end}"
   } else {
     if $bare {
-      $init_cmd = "${git::params::bin} init --bare ${path}"
+      $init_cmd = "${su_do}${git::params::bin} init --bare ${path}${su_end}"
     } else {
-      $init_cmd = "${git::params::bin} init ${path}"
+      $init_cmd = "${su_do}${git::params::bin} init ${path}${su_end}"
     }
   }
 
@@ -75,29 +83,26 @@ define git::repo(
   # It should change branches too...
   if $git_tag {
     exec {"git_${name}_co_tag":
-      user      => $owner,
       cwd       => $path,
       provider  => shell,
-      command   => "${git::params::bin} checkout ${git_tag}",
-      unless    => "${git::params::bin} describe --tag|${git::params::grep_cmd} -P '${git_tag}'",
+      command   => "${su_do}${git::params::bin} checkout ${git_tag}${su_end}",
+      unless    => "${su_do}${git::params::bin} describe --tag|${git::params::grep_cmd} -P '${git_tag}'${su_end}",
       require   => Exec["git_repo_${name}"],
     }
   } elsif ! $bare {
     exec {"git_${name}_co_branch":
-      user      => $owner,
       cwd       => $path,
       provider  => shell,
-      command   => "${git::params::bin} checkout ${branch}",
-      unless    => "${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${branch}'",
+      command   => "${su_do}${git::params::bin} checkout ${branch}${su_end}",
+      unless    => "${su_do}${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${branch}'${su_end}",
       require   => Exec["git_repo_${name}"],
     }
     if $update {
       exec {"git_${name}_pull":
-        user      => $owner,
         cwd       => $path,
         provider  => shell,
-        command   => "${git::params::bin} reset --hard origin/${branch}",
-        unless    => "${git::params::bin} fetch && ${git::params::bin} diff origin/${branch} --no-color --exit-code",
+        command   => "${su_do}${git::params::bin} reset --hard origin/${branch}${su_end}",
+        unless    => "${su_do}${git::params::bin} fetch && ${git::params::bin} diff origin/${branch} --no-color --exit-code${su_end}",
         require   => Exec["git_repo_${name}"],
       }
     }
