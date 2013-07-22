@@ -74,7 +74,6 @@ define git::repo(
   # It should change branches too...
   if $git_tag {
     exec {"git_${name}_co_tag":
-      user    => $owner,
       cwd     => $path,
       command => "${git::params::bin} checkout ${git_tag}",
       unless  => "${git::params::bin} describe --tag|${git::params::grep_cmd} -P '${git_tag}'",
@@ -82,7 +81,6 @@ define git::repo(
     }
   } elsif ! $bare {
     exec {"git_${name}_co_branch":
-      user    => $owner,
       cwd     => $path,
       command => "${git::params::bin} checkout ${branch}",
       unless  => "${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${branch}'",
@@ -90,7 +88,6 @@ define git::repo(
     }
     if $update {
       exec {"git_${name}_pull":
-        user    => $owner,
         cwd     => $path,
         command => "${git::params::bin} reset --hard origin/${branch}",
         unless  => "${git::params::bin} fetch && ${git::params::bin} diff origin/${branch} --no-color --exit-code",
