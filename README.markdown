@@ -1,6 +1,8 @@
 # puppet-git
 ============
 
+**WARNING** Depreciated, changes to how Puppet sets up the environment variables with `exec` resources means this module no longer works as intended when creating repositories as any user other than root. It is recommended that the Puppetlabs vcsrepo module is used instead: https://github.com/puppetlabs/puppetlabs-vcsrepo
+
 A puppet module for managing git resources
 
 # To install into puppet
