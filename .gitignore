@@ -26,5 +26,6 @@ Thumbs.db
 obj/
 [Rr]elease*/
 _ReSharper*/
+pkg/*
 [Tt]est[Rr]esult*
 *~
