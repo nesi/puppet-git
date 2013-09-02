@@ -47,12 +47,12 @@ define git::repo(
   }
 
   if $source {
-    $init_cmd = "${su_do}${git::params::bin} clone -b ${real_branch} ${source} ${path} --recursive${su_end}"
+    $init_cmd = "${git::params::bin} clone -b ${real_branch} ${source} ${path} --recursive"
   } else {
     if $bare {
-      $init_cmd = "${su_do}${git::params::bin} init --bare ${path}${su_end}"
+      $init_cmd = "${git::params::bin} init --bare ${path}"
     } else {
-      $init_cmd = "${su_do}${git::params::bin} init ${path}${su_end}"
+      $init_cmd = "${git::params::bin} init ${path}"
     }
   }
 
