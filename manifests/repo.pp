@@ -85,24 +85,24 @@ define git::repo(
     exec {"git_${name}_co_tag":
       cwd       => $path,
       provider  => shell,
-      command   => "${su_do}${git::params::bin} checkout ${git_tag}${su_end}",
-      unless    => "${su_do}${git::params::bin} describe --tag|${git::params::grep_cmd} -P '${git_tag}'${su_end}",
+      command   => "${su_do}cd ${path} && ${git::params::bin} checkout ${git_tag}${su_end}",
+      unless    => "${su_do}cd ${path} && ${git::params::bin} describe --tag|${git::params::grep_cmd} -P '${git_tag}'${su_end}",
       require   => Exec["git_repo_${name}"],
     }
   } elsif ! $bare {
     exec {"git_${name}_co_branch":
       cwd       => $path,
       provider  => shell,
-      command   => "${su_do}${git::params::bin} checkout ${branch}${su_end}",
-      unless    => "${su_do}${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${branch}'${su_end}",
+      command   => "${su_do}cd ${path} && ${git::params::bin} checkout ${branch}${su_end}",
+      unless    => "${su_do}cd ${path} && ${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${branch}'${su_end}",
       require   => Exec["git_repo_${name}"],
     }
     if $update {
       exec {"git_${name}_pull":
         cwd       => $path,
         provider  => shell,
-        command   => "${su_do}${git::params::bin} reset --hard origin/${branch}${su_end}",
-        unless    => "${su_do}${git::params::bin} fetch && ${git::params::bin} diff origin/${branch} --no-color --exit-code${su_end}",
+        command   => "${su_do}cd ${path} && ${git::params::bin} reset --hard origin/${branch}${su_end}",
+        unless    => "${su_do}cd ${path} && ${git::params::bin} fetch && ${git::params::bin} diff origin/${branch} --no-color --exit-code${su_end}",
         require   => Exec["git_repo_${name}"],
       }
     }
