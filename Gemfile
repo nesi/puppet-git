@@ -6,6 +6,8 @@ end
 
 if puppetversion = ENV['PUPPET_GEM_VERSION']
   gem 'puppet', puppetversion, :require => false
+  gem 'ruby-augeas', :require => false
+  gem 'rspec-puppet-augeas', require => false
 else
   gem 'puppet', :require => false
 end

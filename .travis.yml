@@ -1,6 +1,8 @@
 language: ruby
 bundler_args: --without development
 script: "bundle exec rake spec SPEC_OPTS='--format documentation'"
+before_install:
+  - sudo apt-get install -qq augeas-tools augeas-lenses libaugeas-dev
 rvm:
   - 1.8.7
   - 1.9.3
