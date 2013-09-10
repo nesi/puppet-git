@@ -10,6 +10,8 @@ Update your license details here.
 
 # Attribution
 
+## puppet-blank
+
 This module is derived from the puppet-blank module by Aaron Hicks (aethylred@gmail.com)
 
 * https://github.com/Aethylred/puppet-blank
@@ -17,6 +19,18 @@ This module is derived from the puppet-blank module by Aaron Hicks (aethylred@gm
 This module has been developed for the use with Open Source Puppet (Apache 2.0 license) for automating server & service deployment.
 
 * http://puppetlabs.com/puppet/puppet-open-source/
+
+## rspec-puppet-augeas
+
+This module includes the [Travis](https://travis-ci.org) configuration to use [`rspec-puppet-augeas`](https://github.com/domcleal/rspec-puppet-augeas) to test and verify changes made to files using the [`augeas` resource](http://docs.puppetlabs.com/references/latest/type.html#augeas) available in Puppet. Check the `rspec-puppet-augeas` [documentation](https://github.com/domcleal/rspec-puppet-augeas/blob/master/README.md) for usage.
+
+This will require a copy of the original input files to `spec/fixtures/augeas` using the same filesystem layout that the resource expects:
+
+    $ tree spec/fixtures/augeas/
+    spec/fixtures/augeas/
+    `-- etc
+        `-- ssh
+            `-- sshd_config
 
 # Gnu General Public License
 
