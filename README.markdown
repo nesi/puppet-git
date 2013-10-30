@@ -3,7 +3,25 @@
 
 A puppet module for managing the installation and configuration of [git](http://git-scm.com/).
 
-**WARNING** Changes to how Puppet sets up the environment variables with `exec` resources means this module no longer works as intended when managing repositories as any user other than root. It is recommended that the Puppetlabs vcsrepo module is used instead: https://github.com/puppetlabs/puppetlabs-vcsrepo
+**WARNING** Changes to how Puppet sets up the environment variables with `exec` resources means this module no longer works as intended when managing repositories as any user other than root. It is recommended that the [Puppetlabs vcsrepo module](https://github.com/puppetlabs/puppetlabs-vcsrepo) is used manage repositories.
+
+## Feature Roadmap
+
+This module is going to be refactored to operate in conjunction to the vcsrepo module. It will manage the installation of git, the configuration of git specific settings, executing git commands, and eventually the management of git hook scripts.
+
+#### Implemented Features:
+* Installs git from packages
+* Optionally installs git-svn from packages (defaults installed)
+* Optionally installs git-gui from packages (defaults not installed)
+
+#### Features not yet updated
+* Initialising user accounts with git configurations
+
+#### Features to be Implemented
+* Sets git user's globals settings
+* Sets git repository local settings
+* Executes git commands
+* Pushes hook scripts into git repositories
 
 # Usage
 
@@ -47,7 +65,7 @@ Otherwise using parameters:
 
 ## To specify a git repository **Depreciated**
 
-**Usin the git::repo class is depreciated and vcsrepo should be considered**
+**Usin the `git::repo` class is depreciated and `vcsrepo` should be considered instead.**
 
 This will clone a git repository from a vaild git URI to a specified path on the target server. It is **strongly** recommended that *read-only* git URIs are used. If no source is given, the target path will simply be initialised as a git repository.
 
@@ -83,6 +101,8 @@ With minimum parameters to clone from a remote source:
 
 # Attribution
 
+## puppet-blank
+
 This module is derived from the puppet-blank module by Aaron Hicks (aethylred@gmail.com)
 
 * https://github.com/Aethylred/puppet-blank
@@ -90,6 +110,19 @@ This module is derived from the puppet-blank module by Aaron Hicks (aethylred@gm
 This module has been developed for the use with Open Source Puppet (Apache 2.0 license) for automating server & service deployment.
 
 * http://puppetlabs.com/puppet/puppet-open-source/
+
+## rspec-puppet-augeas
+
+This module includes the [Travis](https://travis-ci.org) configuration to use [`rspec-puppet-augeas`](https://github.com/domcleal/rspec-puppet-augeas) to test and verify changes made to files using the [`augeas` resource](http://docs.puppetlabs.com/references/latest/type.html#augeas) available in Puppet. Check the `rspec-puppet-augeas` [documentation](https://github.com/domcleal/rspec-puppet-augeas/blob/master/README.md) for usage.
+
+This will require a copy of the original input files to `spec/fixtures/augeas` using the same filesystem layout that the resource expects:  
+```
+$ tree spec/fixtures/augeas/
+spec/fixtures/augeas/
+`-- etc
+    `-- ssh
+        `-- sshd_config
+```
 
 # Gnu General Public License
 

@@ -27,6 +27,8 @@ define git::repo(
   $bare     = false
 ){
 
+  warning('Using git::repo is depreciated!')
+
   require git
   require git::params
 
