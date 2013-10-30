@@ -34,7 +34,7 @@ define git::repo(
 
   if $owner != 'root' {
     $su_do  = "${git::params::su_cmd} -l ${owner} -c \""
-    $su_end = "\""
+    $su_end = '"'
   } else {
     $su_do  = ''
     $su_end = ''

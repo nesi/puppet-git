@@ -10,10 +10,10 @@ class git::params {
       $gui_package  = 'git-gui'
       $bin          = '/usr/bin/git'
       $su_cmd       = '/bin/su'
-      if $::operatingsystem =~ /^(Debian|Ubuntu)$/ and versioncmp($::operatingsystemrelease, "12") < 0 {
+      if $::operatingsystem =~ /^(Debian|Ubuntu)$/ and versioncmp($::operatingsystemrelease, '12') < 0 {
         $package = 'git-core'
       }else{
-         $package = 'git'
+        $package = 'git'
       }
       $grep_cmd = $::operatingsystem ? {
         Archlinux => '/usr/bin/grep',
@@ -21,7 +21,7 @@ class git::params {
       }
     }
     default:{
-      warning("git not configured for ${::operatingsystem} on ${::fqdn}")
+      warning("The NeSI Git Puppet module does not support ${::osfamily} family of operating systems")
     }
   }
 }

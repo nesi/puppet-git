@@ -31,7 +31,7 @@ describe 'git', :type => :class do
     it do
       expect {
         should include_class('puppet::params')
-      }.to raise_error(Puppet::Error, /The NeSI Puppet Puppet module does not support Unknown family of operating systems/)
+      }.to raise_error(Puppet::Error, /The NeSI Git Puppet module does not support Unknown family of operating systems/)
     end
   end
 
