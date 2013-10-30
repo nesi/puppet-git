@@ -40,8 +40,11 @@ Otherwise using the parametrs:
 
 ### Parameters
 
+* **ensure**: Sets the ensure parameter passed to the git package. The default is `installed`.
 * **svn**: Sets the ensure paramater passed to the git-svn package. The default is `installed`.
 * **gui**: Sets the ensure parameter passed to the git-gui package. The default is `absent`.
+* **package**: Specifies a custom package. The default is `git`, except for older versions of Debian and Ubuntu where the default is `git-core`.
+* **git_root**: Currently does nothing, it's functionality is to be reviewed.
 
 ## To set up git for a user
 
