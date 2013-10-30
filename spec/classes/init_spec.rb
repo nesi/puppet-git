@@ -1,10 +1,10 @@
 require 'spec_helper'
 describe 'git', :type => :class do
-  context "on a later (post 12) Debian OS" do
+  context "on a later (post 11) Debian OS" do
     let :facts do
       {
         :osfamily   => 'Debian',
-        :operatingsystemrelease => '12',
+        :operatingsystemrelease => '11',
       }
     end
     describe "with no parameters" do
@@ -63,11 +63,11 @@ describe 'git', :type => :class do
     end
   end
 
-  context "on an early (pre 12) Debian OS" do
+  context "on an early (pre 11) Debian OS" do
     let :facts do
       {
         :osfamily               => 'Debian',
-        :operatingsystemrelease => '11',
+        :operatingsystemrelease => '10',
       }
     end
     describe "with no parameters" do

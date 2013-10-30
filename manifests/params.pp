@@ -12,7 +12,7 @@ class git::params {
 
   case $::osfamily {
     Debian: {
-      if versioncmp($::operatingsystemrelease, '12') < 0 {
+      if versioncmp($::operatingsystemrelease, '11') < 0 {
         $package = 'git-core'
       }else{
         $package = 'git'
