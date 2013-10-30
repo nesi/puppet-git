@@ -22,6 +22,17 @@ describe 'git', :type => :class do
     end
   end
 
+  context "on a ArchLinux OS" do
+    let :facts do
+      {
+        :osfamily   => 'ArchLinux',
+      }
+    end
+    describe "with no parameters" do
+      it { should include_class('git::params') }
+    end
+  end
+
     context "on an Unknown OS" do
     let :facts do
       {
