@@ -1,13 +1,42 @@
 require 'spec_helper'
 describe 'git', :type => :class do
-  context "on a Debian OS" do
+  context "on a later (post 12) Debian OS" do
     let :facts do
       {
         :osfamily   => 'Debian',
+        :operatingsystemrelease => '12',
       }
     end
     describe "with no parameters" do
       it { should include_class('git::params') }
+      it { should contain_package('git').with(
+        'ensure'  => 'installed',
+        'name'    => 'git'
+      ) }
+      it { should contain_package('git-svn').with(
+        'ensure'  => 'installed',
+        'name'    => 'git-svn'
+      ) }
+      it { should contain_package('git-gui').with(
+        'ensure'  => 'absent',
+        'name'    => 'git-gui'
+      ) }
+    end
+  end
+
+  context "on an early (pre 12) Debian OS" do
+    let :facts do
+      {
+        :osfamily               => 'Debian',
+        :operatingsystemrelease => '11',
+      }
+    end
+    describe "with no parameters" do
+      it { should include_class('git::params') }
+      it { should contain_package('git').with(
+        'ensure'  => 'installed',
+        'name'    => 'git-core'
+      ) }
     end
   end
 
@@ -19,6 +48,10 @@ describe 'git', :type => :class do
     end
     describe "with no parameters" do
       it { should include_class('git::params') }
+      it { should contain_package('git').with(
+        'ensure'  => 'installed',
+        'name'    => 'git'
+      ) }
     end
   end
 
@@ -30,10 +63,14 @@ describe 'git', :type => :class do
     end
     describe "with no parameters" do
       it { should include_class('git::params') }
+      it { should contain_package('git').with(
+        'ensure'  => 'installed',
+        'name'    => 'git'
+      ) }
     end
   end
 
-    context "on an Unknown OS" do
+  context "on an Unknown OS" do
     let :facts do
       {
         :osfamily   => 'Unknown',

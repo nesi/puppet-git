@@ -16,14 +16,14 @@ A basic install with the defaults would be:
 Otherwise using the parametrs:
 
     class{git:
-      svn => true,
-      gui => true,
+      svn => 'installed',
+      gui => 'installed',
     }
 
 ### Parameters
 
-* *svn* if true the git-svn package will also be installed
-* *gui* if true the git-gui package will also be installed
+* **svn**: Sets the ensure paramater passed to the git-svn package. The default is `installed`.
+* **gui**: Sets the ensure parameter passed to the git-gui package. The default is `absent`.
 
 ## To set up git for a user
 

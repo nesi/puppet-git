@@ -33,10 +33,44 @@
 class git(
   $ensure   = 'installed',
   $package  = $git::params::package,
-  $gui      = false,
-  $svn      = true,
+  $gui      = 'absent',
+  $svn      = 'installed',
   $git_root = false
 ) inherits git::params {
 
+  case $ensure {
+    /^installed$|^(\d+)?(\.(x|\*|\d+))?(\.(x|\*|\d+))?(|-(\S+))$/: {
+      $ensure_dir     = 'directory'
+      $ensure_file    = 'file'
+      $ensure_present = 'present'
+    }
+    default: {
+      $ensure_dir     = 'absent'
+      $ensure_file    = 'absent'
+      $ensure_present = 'absent'
+    }
+  }
+
+  package{'git':
+    ensure  => $ensure,
+    name    => $package,
+  }
+
+  package{'git-svn':
+    ensure  => $svn,
+    name    => $git::params::svn_package,
+  }
+
+  package{'git-gui':
+    ensure  => $gui,
+    name    => $git::params::gui_package,
+  }
+
+  # Need to consider if this should happen or not.
+  # if $git_root {
+  #   $root_name    = "root on ${::fqdn}"
+  #   $root_email   = "root@${::fqdn}"
+  #   git::user{'root':}
+  # }
 
 }
