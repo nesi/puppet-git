@@ -27,16 +27,18 @@ This module is going to be refactored to operate in conjunction to the vcsrepo m
 
 ## To install git
 
-A basic install with the defaults would be:
+A basic install with the defaults would be:  
+```puppet
+include git
+```
 
-     include git
-
-Otherwise using the parametrs:
-
-    class{git:
-      svn => 'installed',
-      gui => 'installed',
-    }
+Otherwise using the parametrs:  
+```puppet
+class{git:
+  svn => 'installed',
+  gui => 'installed',
+}
+```
 
 ### Parameters
 
@@ -50,40 +52,44 @@ Otherwise using the parametrs:
 
 This basically sets the users name and email as git global variables, and should allow them to just use git. The username should be a valid user account.
 
-With default settings just use:
+With default settings just use:  
+```puppet
+git::user{'username':}
+```
 
-    git::user{'username':}
-
-Otherwise using parameters:
-
-    git::user{'username':
-     user_name  => 'Some User',
-     user_email => 'someuser@example.org',
-    }
+Otherwise using parameters:  
+```puppet
+git::user{'username':
+ user_name  => 'Some User',
+ user_email => 'someuser@example.org',
+}
+```
 
 ### Parameters
 
 * *user_name* sets the user's name to the specified string, and not the default of `${name} on ${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
 * *user_email* sets the user's email address to the specified string, and not the default of `${name}@${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
 
-## To specify a git repository **Depreciated**
+## To specify a git repository 
 
-**Usin the `git::repo` class is depreciated and `vcsrepo` should be considered instead.**
+**Using the `git::repo` class is depreciated and `vcsrepo` should be considered instead.**
 
 This will clone a git repository from a vaild git URI to a specified path on the target server. It is **strongly** recommended that *read-only* git URIs are used. If no source is given, the target path will simply be initialised as a git repository.
 
-With minimum parameters, should create the directory `/usr/src/repo` and run `git init` in it:
+With minimum parameters, should create the directory `/usr/src/repo` and run `git init` in it:  
+```puppet
+git::repo{'repo_name':
+  path => '/usr/src/repo',
+}
+```
 
-    git::repo{'repo_name':
-      path => '/usr/src/repo',
-    }
-
-With minimum parameters to clone from a remote source:
-
-    git::repo{'repo_name':
-     path   => '/usr/src/repo',
-     source => 'git://example.org/example/repo.git'
-    }
+With minimum parameters to clone from a remote source:  
+```puppet
+git::repo{'repo_name':
+ path   => '/usr/src/repo',
+ source => 'git://example.org/example/repo.git'
+}
+```
 
 ### Parameters
 
