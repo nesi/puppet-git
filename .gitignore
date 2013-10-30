@@ -29,3 +29,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 .project
 *~
+*.sublime-project
+*.sublime-workspace
