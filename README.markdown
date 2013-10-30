@@ -1,26 +1,9 @@
 # puppet-git
 ============
 
-**WARNING** Depreciated, changes to how Puppet sets up the environment variables with `exec` resources means this module no longer works as intended when creating repositories as any user other than root. It is recommended that the Puppetlabs vcsrepo module is used instead: https://github.com/puppetlabs/puppetlabs-vcsrepo
+A puppet module for managing the installation and configuration of [git](http://git-scm.com/).
 
-A puppet module for managing git resources
-
-# To install into puppet
-
-Clone into your puppet configuration in your `puppet/modules` directory:
-
- git clone git://github.com/nesi/puppet-git.git git
-
-Or if you're managing your Puppet configuration with git, in your `puppet` directory:
-
-    git submodule add git://github.com/nesi/puppet-git.git modules/git --init --recursive
-    cd modules/git
-    git checkout master
-    git pull
-    cd ../..
-    git commit -m "added git submodule from https://github.com/nesi/puppet-git"
-
-It might seem bit excessive, but it will make sure the submodule isn't headless...
+**WARNING** Changes to how Puppet sets up the environment variables with `exec` resources means this module no longer works as intended when managing repositories as any user other than root. It is recommended that the Puppetlabs vcsrepo module is used instead: https://github.com/puppetlabs/puppetlabs-vcsrepo
 
 # Usage
 
@@ -62,7 +45,9 @@ Otherwise using parameters:
 * *user_name* sets the user's name to the specified string, and not the default of `${name} on ${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
 * *user_email* sets the user's email address to the specified string, and not the default of `${name}@${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
 
-## To specify a git repository
+## To specify a git repository **Depreciated**
+
+**Usin the git::repo class is depreciated and vcsrepo should be considered**
 
 This will clone a git repository from a vaild git URI to a specified path on the target server. It is **strongly** recommended that *read-only* git URIs are used. If no source is given, the target path will simply be initialised as a git repository.
 
