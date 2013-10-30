@@ -22,6 +22,45 @@ describe 'git', :type => :class do
         'name'    => 'git-gui'
       ) }
     end
+    describe "with ensure => absent" do
+      let :params do
+        {
+          :ensure => 'absent',
+        }
+      end
+      it { should include_class('git::params') }
+      it { should contain_package('git').with(
+        'ensure'  => 'absent'
+      ) }
+      it { should contain_package('git-svn').with(
+        'ensure'  => 'absent'
+      ) }
+      it { should contain_package('git-gui').with(
+        'ensure'  => 'absent'
+      ) }
+    end
+    describe "with svn => absent" do
+      let :params do
+        {
+          :svn => 'absent',
+        }
+      end
+      it { should include_class('git::params') }
+      it { should contain_package('git-svn').with(
+        'ensure'  => 'absent'
+      ) }
+    end
+    describe "with gui => installed" do
+      let :params do
+        {
+          :gui => 'installed',
+        }
+      end
+      it { should include_class('git::params') }
+      it { should contain_package('git-gui').with(
+        'ensure'  => 'installed'
+      ) }
+    end
   end
 
   context "on an early (pre 12) Debian OS" do

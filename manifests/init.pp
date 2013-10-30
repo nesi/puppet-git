@@ -38,16 +38,15 @@ class git(
   $git_root = false
 ) inherits git::params {
 
+  # ensure statement for the git package overrides svn and gui ensure.
   case $ensure {
     /^installed$|^(\d+)?(\.(x|\*|\d+))?(\.(x|\*|\d+))?(|-(\S+))$/: {
-      $ensure_dir     = 'directory'
-      $ensure_file    = 'file'
-      $ensure_present = 'present'
+      $ensure_svn = $svn
+      $ensure_gui = $gui
     }
     default: {
-      $ensure_dir     = 'absent'
-      $ensure_file    = 'absent'
-      $ensure_present = 'absent'
+      $ensure_svn = 'absent'
+      $ensure_gui = 'absent'
     }
   }
 
@@ -57,12 +56,12 @@ class git(
   }
 
   package{'git-svn':
-    ensure  => $svn,
+    ensure  => $ensure_svn,
     name    => $git::params::svn_package,
   }
 
   package{'git-gui':
-    ensure  => $gui,
+    ensure  => $ensure_gui,
     name    => $git::params::gui_package,
   }
 
