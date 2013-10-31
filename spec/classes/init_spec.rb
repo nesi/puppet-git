@@ -1,10 +1,10 @@
 require 'spec_helper'
 describe 'git', :type => :class do
-  context "on a later (post 11) Debian OS" do
+  context "on a Debian OS" do
     let :facts do
       {
-        :osfamily   => 'Debian',
-        :operatingsystemrelease => '11',
+        :osfamily         => 'Debian',
+        :operatingsystem  => 'Debian',
       }
     end
     describe "with no parameters" do
@@ -63,10 +63,28 @@ describe 'git', :type => :class do
     end
   end
 
-  context "on an early (pre 11) Debian OS" do
+  context "on an later (post 11) Ubuntu OS" do
     let :facts do
       {
         :osfamily               => 'Debian',
+        :operatingsystem        => 'Ubuntu',
+        :operatingsystemrelease => '11',
+      }
+    end
+    describe "with no parameters" do
+      it { should include_class('git::params') }
+      it { should contain_package('git').with(
+        'ensure'  => 'installed',
+        'name'    => 'git'
+      ) }
+    end
+  end
+
+  context "on an early (pre 11) Ubuntu OS" do
+    let :facts do
+      {
+        :osfamily               => 'Debian',
+        :operatingsystem        => 'Ubuntu',
         :operatingsystemrelease => '10',
       }
     end
