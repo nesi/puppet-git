@@ -1,6 +1,8 @@
 # puppet-git
 ============
 
+[![Build Status](https://travis-ci.org/nesi/puppet-git.png?branch=master)](https://travis-ci.org/nesi/puppet-git)
+
 A puppet module for managing the installation and configuration of [git](http://git-scm.com/).
 
 **WARNING** Changes to how Puppet sets up the environment variables with `exec` resources means this module no longer works as intended when managing repositories as any user other than root. It is recommended that the [Puppetlabs vcsrepo module](https://github.com/puppetlabs/puppetlabs-vcsrepo) is used manage repositories.
