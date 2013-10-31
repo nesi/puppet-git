@@ -24,7 +24,8 @@ define git::repo(
   $owner    = 'root',
   $group    = 'root',
   $update   = false,
-  $bare     = false
+  $bare     = false,
+  $timeout   = 60
 ){
 
   warning('Using git::repo is depreciated!')
@@ -78,7 +79,7 @@ define git::repo(
     provider  => shell,
     creates   => $creates,
     require   => Package[$git::params::package],
-    timeout   => 600,
+    timeout   => $timeout,
   }
 
   # I think tagging works, but it's possible setting a tag and a branch will just fight.
