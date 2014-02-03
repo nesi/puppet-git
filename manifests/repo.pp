@@ -36,7 +36,7 @@ define git::repo(
   validate_bool($bare, $update)
 
   if $owner != 'root' {
-    $su_do  = "${git::params::su_cmd} -l ${owner} -c \""
+    $su_do  = "${git::params::su_cmd} ${owner} -c \""
     $su_end = '"'
   } else {
     $su_do  = ''
@@ -96,16 +96,16 @@ define git::repo(
     exec {"git_${name}_co_branch":
       cwd       => $path,
       provider  => shell,
-      command   => "${su_do}${git::params::bin} checkout ${branch}${su_end}",
-      unless    => "${su_do}${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${branch}'${su_end}",
+      command   => "${su_do}${git::params::bin} checkout ${real_branch}${su_end}",
+      unless    => "${su_do}${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${real_branch}'${su_end}",
       require   => Exec["git_repo_${name}"],
     }
     if $update {
       exec {"git_${name}_pull":
         cwd       => $path,
         provider  => shell,
-        command   => "${su_do}${git::params::bin} reset --hard origin/${branch}${su_end}",
-        unless    => "${su_do}${git::params::bin} fetch && ${git::params::bin} diff origin/${branch} --no-color --exit-code${su_end}",
+        command   => "${su_do}${git::params::bin} reset --hard origin/${real_branch}${su_end}",
+        unless    => "${su_do}${git::params::bin} fetch && ${git::params::bin} diff origin/${real_branch} --no-color --exit-code${su_end}",
         require   => Exec["git_repo_${name}"],
       }
     }
