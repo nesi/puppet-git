@@ -69,6 +69,7 @@ define git::repo(
     file{$path:
       ensure  => directory,
       owner   => $owner,
+      group   => $group,
       recurse => true,
     }
   }
