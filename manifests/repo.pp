@@ -65,46 +65,46 @@ define git::repo(
   }
 
   exec {"git_repo_${name}":
-    command   => $init_cmd,
-    user      => $owner,
-    group     => $group,
-    provider  => shell,
-    creates   => $creates,
-    require   => Package[$git::params::package],
-    timeout   => $timeout,
+    command  => $init_cmd,
+    user     => $owner,
+    group    => $group,
+    provider => shell,
+    creates  => $creates,
+    require  => Package[$git::params::package],
+    timeout  => $timeout,
   }
 
   # I think tagging works, but it's possible setting a tag and a branch will just fight.
   # It should change branches too...
   if $git_tag {
     exec {"git_${name}_co_tag":
-      cwd       => $path,
-      provider  => shell,
-      user      => $owner,
-      group     => $group,
-      command   => "${git::params::bin} checkout ${git_tag}",
-      unless    => "${git::params::bin} describe --tag|${git::params::grep_cmd} -P '${git_tag}'",
-      require   => Exec["git_repo_${name}"],
+      cwd      => $path,
+      provider => shell,
+      user     => $owner,
+      group    => $group,
+      command  => "${git::params::bin} checkout ${git_tag}",
+      unless   => "${git::params::bin} describe --tag|${git::params::grep_cmd} -P '${git_tag}'",
+      require  => Exec["git_repo_${name}"],
     }
   } elsif ! $bare {
     exec {"git_${name}_co_branch":
-      cwd       => $path,
-      provider  => shell,
-      user      => $owner,
-      group     => $group,
-      command   => "${git::params::bin} checkout ${real_branch}",
-      unless    => "${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${real_branch}'",
-      require   => Exec["git_repo_${name}"],
+      cwd      => $path,
+      provider => shell,
+      user     => $owner,
+      group    => $group,
+      command  => "${git::params::bin} checkout ${real_branch}",
+      unless   => "${git::params::bin} branch|${git::params::grep_cmd} -P '\\* ${real_branch}'",
+      require  => Exec["git_repo_${name}"],
     }
     if $update {
       exec {"git_${name}_pull":
-        cwd       => $path,
-        provider  => shell,
-        user      => $owner,
-        group     => $group,
-        command   => "${git::params::bin} reset --hard origin/${real_branch}",
-        unless    => "${git::params::bin} fetch && ${git::params::bin} diff origin/${real_branch} --no-color --exit-code",
-        require   => Exec["git_repo_${name}"],
+        cwd      => $path,
+        provider => shell,
+        user     => $owner,
+        group    => $group,
+        command  => "${git::params::bin} reset --hard origin/${real_branch}",
+        unless   => "${git::params::bin} fetch && ${git::params::bin} diff origin/${real_branch} --no-color --exit-code",
+        require  => Exec["git_repo_${name}"],
       }
     }
   }

@@ -8,7 +8,7 @@ describe 'git', :type => :class do
       }
     end
     describe "with no parameters" do
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git').with(
         'ensure'  => 'installed',
         'name'    => 'git'
@@ -28,7 +28,7 @@ describe 'git', :type => :class do
           :ensure => 'absent',
         }
       end
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git').with(
         'ensure'  => 'absent'
       ) }
@@ -45,7 +45,7 @@ describe 'git', :type => :class do
           :svn => 'absent',
         }
       end
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git-svn').with(
         'ensure'  => 'absent'
       ) }
@@ -56,7 +56,7 @@ describe 'git', :type => :class do
           :gui => 'installed',
         }
       end
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git-gui').with(
         'ensure'  => 'installed'
       ) }
@@ -72,7 +72,7 @@ describe 'git', :type => :class do
       }
     end
     describe "with no parameters" do
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git').with(
         'ensure'  => 'installed',
         'name'    => 'git'
@@ -89,7 +89,7 @@ describe 'git', :type => :class do
       }
     end
     describe "with no parameters" do
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git').with(
         'ensure'  => 'installed',
         'name'    => 'git-core'
@@ -104,7 +104,7 @@ describe 'git', :type => :class do
       }
     end
     describe "with no parameters" do
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git').with(
         'ensure'  => 'installed',
         'name'    => 'git'
@@ -119,7 +119,7 @@ describe 'git', :type => :class do
       }
     end
     describe "with no parameters" do
-      it { should include_class('git::params') }
+      it { should contain_class('git::params') }
       it { should contain_package('git').with(
         'ensure'  => 'installed',
         'name'    => 'git'
@@ -133,11 +133,7 @@ describe 'git', :type => :class do
         :osfamily   => 'Unknown',
       }
     end
-    it do
-      expect {
-        should include_class('puppet::params')
-      }.to raise_error(Puppet::Error, /The NeSI Git Puppet module does not support Unknown family of operating systems/)
-    end
+    it { should raise_error(Puppet::Error, /The NeSI Git Puppet module does not support Unknown family of operating systems/) }
   end
 
 end
