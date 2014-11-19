@@ -18,20 +18,25 @@
 
 define git::repo(
   $path,
-  $source   = false,
-  $branch   = undef,
-  $git_tag  = undef,
-  $owner    = 'root',
-  $group    = 'root',
-  $update   = false,
-  $bare     = false,
-  $timeout   = 60
+  $source        = false,
+  $branch        = undef,
+  $git_tag       = undef,
+  $owner         = 'root',
+  $group         = 'root',
+  $update        = false,
+  $bare          = false,
+  $timeout       = '60',
+  $suppress_warn = false
 ){
 
   require git
   require git::params
 
-  validate_bool($bare, $update)
+  validate_bool($bare, $update, $suppress_warn)
+
+  if ! $suppress_warn {
+    warning('The use of the git::repo resource is depreciated. Please consider using the Puppetlabs vcsrepo class.')
+  }
 
   if $branch {
     $real_branch = $branch

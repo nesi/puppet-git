@@ -3,13 +3,9 @@
 
 [![Build Status](https://travis-ci.org/nesi/puppet-git.png?branch=master)](https://travis-ci.org/nesi/puppet-git)
 
-A puppet module for managing the installation and configuration of [git](http://git-scm.com/).
+A puppet module for managing the installation and configuration of [git](http://git-scm.com/) so that it is available by use by the Puppetlabs `vcsrepo` module. This includes installing, configuring and the installation of git, the configuration of git specific settings, executing git commands, and eventually the management of git hook scripts.
 
-**WARNING** Changes to how Puppet sets up the environment variables with `exec` resources means this module no longer works as intended when managing repositories as any user other than root. It is recommended that the [Puppetlabs vcsrepo module](https://github.com/puppetlabs/puppetlabs-vcsrepo) is used manage repositories.
-
-## Feature Roadmap
-
-This module is going to be refactored to operate in conjunction to the vcsrepo module. It will manage the installation of git, the configuration of git specific settings, executing git commands, and eventually the management of git hook scripts.
+**WARNING** The use of this module to manage git repositories is being depreciated and will soon become obsolete. It is recommended that the [Puppetlabs vcsrepo module](https://github.com/puppetlabs/puppetlabs-vcsrepo) is used manage repositories.
 
 #### Implemented Features:
 * Installs git from packages
@@ -18,12 +14,9 @@ This module is going to be refactored to operate in conjunction to the vcsrepo m
 
 #### Features not yet updated
 * Initialising user accounts with git configurations
-
-#### Features to be Implemented
-* Sets git user's globals settings
-* Sets git repository local settings
-* Executes git commands
-* Pushes hook scripts into git repositories
+* Configure global and local git configurations
+* Executing git commands not provided by the Puppetlabs vcsrepo module.
+* Injecting hook scripts into git repositories.
 
 # Usage
 
@@ -107,8 +100,10 @@ git::repo{'repo_name':
 # Dependencies
 
 * [stdlib][1]
+* [vcsrepo][2]
 
 [1]:https://github.com/puppetlabs/puppetlabs-stdlib
+[2]:https://github.com/puppetlabs/puppetlabs-vcsrepo
 
 # Attribution
 

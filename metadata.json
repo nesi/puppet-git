@@ -1,6 +1,6 @@
 {
   "name": "Aethylred-git",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Aaron Hicks",
   "license": "Licensed under GPL3",
   "summary": "A module for installing and managing Git",
@@ -46,6 +46,7 @@
     }
    ],
   "dependencies": [
-    { "name": "puppetlabs/stdlib",      "version_requirement": ">=3.2.0 <5.0.0" }
+    { "name": "puppetlabs/stdlib",      "version_requirement": ">=3.2.0 <5.0.0" },
+    { "name": "puppetlabs/vcsrepo",     "version_requirement": ">=1.0.0 <2.0.0" }
   ] 
 }
