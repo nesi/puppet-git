@@ -1,8 +1,6 @@
 # = Define a git user resource
 #
-# At the moment this:
-# - Sets the git global user.name
-# - Sets the git global user.email
+# This uses git::config to set up a git user's basic config.
 #
 # == Parameters:
 #
@@ -17,6 +15,7 @@
 # }
 
 define git::user(
+  $user       = $name,
   $user_name  = false,
   $user_email = false
 ){
@@ -24,25 +23,27 @@ define git::user(
   require git::params
 
   $git_name = $user_name ? {
-    false   => "${name} on ${::fqdn}",
+    false   => "${user} on ${::fqdn}",
     default => $user_name,
   }
 
   $git_email = $user_email ? {
-    false   => "${name}@${::fqdn}",
+    false   => "${user}@${::fqdn}",
     default => $user_email,
   }
 
-  exec{"${name}_git_name":
-    command => "/bin/su - ${name} -c '${git::params::bin} config --global user.name \"${git_name}\"'",
-    unless  => "/bin/su - ${name} -c '${git::params::bin} config --global user.name'|${git::params::grep_cmd} '${git_name}'",
-    require => [Package[$git::params::package]],
+  git::config{"${user}_name":
+    config   => 'user.name',
+    value    => $git_name,
+    provider => 'global',
+    user     => $user,
   }
 
-  exec{"${name}_git_email":
-    command => "/bin/su - ${name} -c '${git::params::bin} config --global user.email \"${git_email}\"'",
-    unless  => "/bin/su - ${name} -c '${git::params::bin} config --global user.email'|${git::params::grep_cmd} '${git_email}'",
-    require => [Package[$git::params::package]],
+  git::config{"${user}_email":
+    config   => 'user.email',
+    value    => $git_email,
+    provider => 'global',
+    user     => $user,
   }
 
 }

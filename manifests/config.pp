@@ -1,6 +1,7 @@
+# This defines a git config statement
 define git::config (
   $config   = $name,
-  $value    = undef, 
+  $value    = undef,
   $provider = 'system',
   $user     = undef,
   $repo     = undef,
@@ -10,7 +11,7 @@ define git::config (
     $home = getparam(User['git'],'home')
     $environment = ["HOME=${home}"]
   } else {
-    $home = $undef
+    $home = undef
     $environemtn = undef
   }
 
