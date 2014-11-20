@@ -2,7 +2,7 @@ fixtures:
   forge_modules:
     stdlib:
       repo: 'puppetlabs-stdlib'
-      ref:  '4.3.2'
+      ref:  '4.4.0'
     vcsrepo:
       repo: 'puppetlabs-vcsrepo'
       ref:  '1.2.0'

@@ -14,6 +14,9 @@ RSpec.configure do |c|
     @old_env = {}
     ENV.each_key {|k| @old_env[k] = ENV[k]}
 
+    # avoid "Only root can execute commands as other users"
+    Puppet.features.stubs(:root? => true)
+
     if ENV['STRICT_VARIABLES'] == 'yes'
       Puppet.settings[:strict_variables]=true
     end

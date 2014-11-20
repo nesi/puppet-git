@@ -8,18 +8,18 @@ define git::config (
 ) {
 
   if $user {
-    $home = getparam(User['git'],'home')
-    $environment = ["HOME=${home}"]
+    $home = getparam(User[$user],'home')
+    $env = ["HOME=${home}"]
   } else {
     $home = undef
-    $environemtn = undef
+    $env = undef
   }
 
   case $provider {
     'system':{
-      $requires = [Package['git']]
+      $requires = Package['git']
       $cwd      = undef
-      $context  = 'system'
+      $context  = '--system'
     }
     'global','user':{
       if $user {
@@ -44,19 +44,24 @@ define git::config (
       }
     }
     default: {
-      fail("The privider '${provider}' is not known to git::config")
+      fail("The provider '${provider}' is not known to git::config")
     }
   }
 
-  $config_command = "${git::params::bin} config ${context} ${config} ${value}"
-  $config_check   = "${git::params::bin} config ${context} ${config}| ${git::params::grep_cmd} '^${value}$'"
+  if $value {
+    $config_command = "${git::params::bin} config ${context} ${config} '${value}'"
+    $config_check   = "${git::params::bin} config ${context} ${config}| ${git::params::grep_cmd} '^${value}$'"
+  } else {
+    $config_command = "${git::params::bin} config ${context} --unset ${config}"
+    $config_check   = "! ${git::params::bin} config ${context} ${config}"
+  }
 
   exec{"git_config_${name}":
     command     => $config_command,
     path        => ['/bin','/usr/bin'],
     user        => $user,
     cwd         => $cwd,
-    environment => $environment,
+    environment => $env,
     unless      => $config_check,
     require     => $requires,
   }
