@@ -18,9 +18,11 @@ A puppet module for managing the installation and configuration of [git](http://
 * Executing git commands not provided by the Puppetlabs vcsrepo module.
 * Injecting hook scripts into git repositories.
 
-# Usage
+# Classes
 
-## To install git
+## `git`
+
+This class installs and manages the git package.
 
 A basic install with the defaults would be:  
 ```puppet
@@ -43,9 +45,11 @@ class{git:
 * **package**: Specifies a custom package. The default is `git`, except for older versions of Debian and Ubuntu where the default is `git-core`.
 * **git_root**: Currently does nothing, it's functionality is to be reviewed.
 
-## To set up git for a user
+# Resources
 
-This basically sets the users name and email as git global variables, and should allow them to just use git. The username should be a valid user account.
+## `git::user`
+
+This basically sets the users name and email by configuring the git global variables as that user, and should allow them to use git without warnings about these values being unset. The user name should be a valid user account that has been previously defined in Puppet.
 
 With default settings just use:  
 ```puppet
@@ -65,7 +69,31 @@ git::user{'username':
 * *user_name* sets the user's name to the specified string, and not the default of `${name} on ${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
 * *user_email* sets the user's email address to the specified string, and not the default of `${name}@${fqdn}`, where fqdn is the fully qualified domain name as discovered by facter.
 
-## To specify a git repository 
+## `git::config`
+
+This resource allows puppet to manage git configurations at the system (setting defaults for all usage), global (setting defaults for all a user's repositories), and local (setting defaults for a repository). These contexts are represented by the `provider` parameter.
+
+When setting a global config value a user is required:
+```puppet
+git::config{'git_core_autocrlf':
+  config   => 'core.autocrlf',
+  value    => 'input',
+  provider => 'global',
+  user     => $user
+}
+```
+
+When setting a local config value a `vcsrepo` repository is required:
+```puppet
+git::config{'git_core_autocrlf':
+  config   => 'core.autocrlf',
+  value    => 'input',
+  provider => 'local',
+  repo     => 'reponame'
+}
+```
+
+## `git::repo` 
 
 **Using the `git::repo` class is depreciated and `vcsrepo` should be considered instead.**
 
@@ -116,19 +144,6 @@ This module is derived from the puppet-blank module by Aaron Hicks (aethylred@gm
 This module has been developed for the use with Open Source Puppet (Apache 2.0 license) for automating server & service deployment.
 
 * http://puppetlabs.com/puppet/puppet-open-source/
-
-## rspec-puppet-augeas
-
-This module includes the [Travis](https://travis-ci.org) configuration to use [`rspec-puppet-augeas`](https://github.com/domcleal/rspec-puppet-augeas) to test and verify changes made to files using the [`augeas` resource](http://docs.puppetlabs.com/references/latest/type.html#augeas) available in Puppet. Check the `rspec-puppet-augeas` [documentation](https://github.com/domcleal/rspec-puppet-augeas/blob/master/README.md) for usage.
-
-This will require a copy of the original input files to `spec/fixtures/augeas` using the same filesystem layout that the resource expects:  
-```
-$ tree spec/fixtures/augeas/
-spec/fixtures/augeas/
-`-- etc
-    `-- ssh
-        `-- sshd_config
-```
 
 # Gnu General Public License
 
