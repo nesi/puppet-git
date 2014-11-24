@@ -1,12 +1,12 @@
 {
   "name": "Aethylred-git",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Aaron Hicks",
   "license": "Licensed under GPL3",
   "summary": "A module for installing and managing Git",
-  "source": "https://github.com/nesi/puppet-git",
-  "project_page": "https://github.com/nesi/puppet-git",
-  "issues_url": "https://github.com/nesi/puppet-git/issues",
+  "source": "https://github.com/aethylred/puppet-git",
+  "project_page": "https://github.com/aethylred/puppet-git",
+  "issues_url": "https://github.com/aethylred/puppet-git/issues",
   "tags": ["git"],
   "operatingsystem_support": [
     {
