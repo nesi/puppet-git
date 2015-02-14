@@ -11,7 +11,7 @@ class git::params {
   $su_cmd       = '/bin/su'
 
   case $::osfamily {
-    Debian: {
+    'Debian': {
       if $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '11') < 0 {
         $package = 'git-core'
       }else{
@@ -19,11 +19,11 @@ class git::params {
       }
       $grep_cmd =  '/bin/grep'
     }
-    RedHat: {
+    'RedHat': {
       $package = 'git'
       $grep_cmd = '/bin/grep'
     }
-    ArchLinux:{
+    'ArchLinux':{
       $package = 'git'
       $grep_cmd = '/usr/bin/grep'
     }
