@@ -27,6 +27,10 @@ class git::params {
       $package = 'git'
       $grep_cmd = '/usr/bin/grep'
     }
+    'Suse': {
+      $package  = ['git', 'git-core']
+      $grep_cmd = '/usr/bin/grep'
+    }
     default:{
       fail("The NeSI Git Puppet module does not support ${::osfamily} family of operating systems")
     }
