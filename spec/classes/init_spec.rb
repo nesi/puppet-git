@@ -127,6 +127,21 @@ describe 'git', :type => :class do
     end
   end
 
+  context "on a SUSE OS" do
+    let :facts do
+      {
+        :osfamily => 'Suse',
+      }
+    end
+    describe "with no parameters" do
+      it { should contain_class('git::params') }
+      it { should contain_package('git').with(
+        'ensure' => 'installed',
+        'name'   => ['git', 'git-core']
+      ) }
+    end
+  end
+
   context "on an Unknown OS" do
     let :facts do
       {
