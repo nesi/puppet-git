@@ -43,6 +43,18 @@
     },
     {
       "operatingsystem": "ArchLinux"
+    },
+    {
+      "operatingsystem": "openSUSE",
+      "operatingsystemrelease": [
+        "13.2"
+      ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "12"
+      ]
     }
    ],
   "dependencies": [
